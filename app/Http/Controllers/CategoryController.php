@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\CategoryService;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\URL;
 
 class CategoryController extends Controller
 {
@@ -29,7 +31,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $parentCategories = $this->categoryService->getParentCategories();
+
+        return view('admin.category.form', ['parentCategories' => $parentCategories]);
     }
 
     /**
@@ -37,7 +41,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $this->categoryService->store($request);
     }
 
     /**

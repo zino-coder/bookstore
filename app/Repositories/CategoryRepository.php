@@ -18,4 +18,9 @@ class CategoryRepository extends BaseRepository
     {
         return $this->model->paginate(10);
     }
+
+    public function getParentCategories()
+    {
+        return $this->model->where('parent_id', 0)->get();
+    }
 }

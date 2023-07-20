@@ -4,6 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
+    <base href="{{ url('/') }}">
     <title>Starter | Velzon - Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
@@ -21,6 +22,9 @@
     <link href="{{ asset('velzon/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="{{ asset('velzon/assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('libs/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
 
 </head>
@@ -103,9 +107,12 @@
 <script src="{{ asset('velzon/assets/libs/feather-icons/feather.min.js') }}"></script>
 <script src="{{ asset('velzon/assets/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
 <script src="{{ asset('velzon/assets/js/plugins.js') }}"></script>
+<script src="{{ asset('js/jquery-3.7.0.min.js') }}"></script>
+<script src="{{ asset('libs/select2/js/select2.min.js') }}"></script>
 
 <!-- App js -->
-<script src="{{ asset('velzon/assets/js/app.js') }}"></script>
+{{--<script src="{{ asset('velzon/assets/js/app.js') }}"></script>--}}
+@stack('custom-script')
 </body>
 
 </html>

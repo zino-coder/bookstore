@@ -37,16 +37,16 @@
                     </a>
                 </li> <!-- end Dashboard Menu -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
+                    <a class="nav-link menu-link {{ request()->routeIs('categories.*') ? 'active' : '' }}" href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="{{ request()->routeIs('categories.*') ? 'true' : 'false' }}" aria-controls="sidebarApps">
                         <i data-feather="grid" class="icon-dual"></i> <span data-key="t-apps">Categories</span>
                     </a>
-                    <div class="collapse menu-dropdown" id="sidebarApps">
+                    <div class="collapse menu-dropdown {{ request()->routeIs('categories.*') ? 'show' : '' }}" id="sidebarApps">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item active">
-                                <a href="{{ route('categories.index') }}" class="nav-link" data-key="t-calendar"> All Category </a>
+                            <li class="nav-item">
+                                <a href="{{ route('categories.index') }}" class="nav-link {{ request()->routeIs('categories.index') ? 'active' : '' }}" data-key="t-calendar"> All Category </a>
                             </li>
                             <li class="nav-item">
-                                <a href="apps-chat.html" class="nav-link" data-key="t-chat"> Add New Category </a>
+                                <a href="{{ route('categories.create') }}" class="nav-link {{ request()->routeIs('categories.create') ? 'active' : '' }}" data-key="t-chat"> Add New Category </a>
                             </li>
                         </ul>
                     </div>

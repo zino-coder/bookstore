@@ -2,6 +2,9 @@
 
 @section('content')
     <div class="col-md-12">
+        @if(session()->has('success'))
+            <p class="alert alert-success">{{ session()->get('success') }}</p>
+        @endif
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Categories</h4>
@@ -31,7 +34,7 @@
                                     <i class="ri-eye-off-line"></i>
                                 @endif
                             </td>
-                            <td>{{ $category->created_at->format('d/m/Y h:i:s') }}</td>
+                            <td>{{ $category->created_at->format('d/m/Y H:i:s') }}</td>
                             <td>
                                 <a class="btn btn-outline-primary"><i class="ri-edit-box-line"></i></a>
                                 <a class="btn btn-outline-danger"><i class="ri-delete-bin-line"></i></a>
