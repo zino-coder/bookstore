@@ -19,4 +19,12 @@ class BaseRepository
     {
         return $this->model->create($attribute);
     }
+
+    public function update($id, $attribute)
+    {
+        $model = $this->getById($id);
+        $model->update($attribute);
+
+        return $model;
+    }
 }

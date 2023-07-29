@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\CategoryService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,4 +17,9 @@ class Category extends Model
         'parent_id',
         'is_active',
     ];
+
+    public function parentCategory()
+    {
+        return $this->belongsTo(Category::class, 'parent_id', 'id');
+    }
 }

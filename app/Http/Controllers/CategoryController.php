@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Category\StoreRequest;
 use Illuminate\Http\Request;
 use App\Services\CategoryService;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
 class CategoryController extends Controller
@@ -21,7 +23,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = $this->categoryService->getAllCategory();
+        $categories = $this->categoryService->getAllCategory(\request()->input('p', 1));
 
         return view('admin.category.index', ['categories' => $categories]);
     }
@@ -39,9 +41,11 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        return $this->categoryService->store($request);
+        $this->categoryService->store($request);
+
+        return Redirect::route('categories.index')->with('success', 'Create Successfully!');
     }
 
     /**
@@ -57,7 +61,10 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category =  $this->categoryService->edit($id);
+        $parentCategories = $this->categoryService->getParentCategories();
+
+        return view('admin.category.form', compact(['category', 'parentCategories']));
     }
 
     /**
@@ -65,7 +72,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        return $this->categoryService->update($request, $id);
     }
 
     /**
@@ -74,5 +81,9 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function changeStatus($id, Request $request)
+    {
+        $this->categoryService->changeStatus($id, $request);
     }
 }

@@ -23,8 +23,8 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (CommonException $e) {
+            return redirect()->back()->withInput()->withErrors(['common' => $e->getMessage()]);
         });
     }
 }

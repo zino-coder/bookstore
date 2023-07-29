@@ -26,17 +26,19 @@
                         <tr>
                             <th scope="row">{{ $category->name }}</th>
                             <td>{{ $category->slug }}</td>
-                            <td>-</td>
+                            <td>{{ $category->parentCategory?->name }}</td>
                             <td>
+                                <a href="{{ route('categories.update', ['id' => $category->id]) }}" data-visbility="{{ $category->is_active }}" class="change-status">
                                 @if($category->is_active)
                                     <i class="ri-eye-line"></i>
                                 @else
                                     <i class="ri-eye-off-line"></i>
                                 @endif
+                                </a>
                             </td>
                             <td>{{ $category->created_at->format('d/m/Y H:i:s') }}</td>
                             <td>
-                                <a class="btn btn-outline-primary"><i class="ri-edit-box-line"></i></a>
+                                <a href="{{ route('categories.edit', ['id' => $category->id]) }}" class="btn btn-outline-primary"><i class="ri-edit-box-line"></i></a>
                                 <a class="btn btn-outline-danger"><i class="ri-delete-bin-line"></i></a>
                             </td>
                         </tr>
@@ -50,3 +52,39 @@
         </div>
     </div>
 @endsection
+
+@push('custom-script')
+    <script>
+        $(document).ready(function () {
+            $('.change-status').on('click', function (e) {
+                e.preventDefault();
+                const statusIcon = [
+                    '<i class="ri-eye-off-line"></i>',
+                    '<i class="ri-eye-line"></i>'
+                ]
+                let url = $(this).attr('href')
+                let is_active = $(this).attr('data-visbility');
+                let _this = $(this)
+                $.ajax({
+                    type: 'PUT',
+                    url: url,
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        is_active: is_active == 1 ? '0' : 1,
+                    },
+                    dataType: 'json',
+
+                    success: function (data) {
+                        console.log(_this)
+                        _this.attr('data-visbility', data.is_active);
+                        _this.empty();
+                        _this.html(statusIcon[data.is_active]);
+                    },
+                    error: function (data) {
+                        console.log(data, 1)
+                    }
+                })
+            })
+        })
+    </script>
+@endpush
