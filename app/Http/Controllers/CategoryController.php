@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Category\StoreRequest;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Services\CategoryService;
 use Illuminate\Routing\Route;
@@ -85,5 +86,23 @@ class CategoryController extends Controller
     public function changeStatus($id, Request $request)
     {
         $this->categoryService->changeStatus($id, $request);
+    }
+
+    public function getChildrenByParent_id(Request $request)
+    {
+        if ($request->parent_id == 0) {
+            return response()->json([]);
+        }
+
+        $categories = Category::where('parent_id', $request->parent_id)->get();
+
+        $childCategory =  $categories->map(function ($category) {
+            return [
+                'id' => $category->id,
+                'text' => $category->name,
+            ];
+        });
+
+        return response()->json($childCategory);
     }
 }
