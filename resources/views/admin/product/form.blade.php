@@ -7,7 +7,7 @@
                 {{ $errors->first('common') }}
             </div>
         @endif
-        <form method="post" action="{{ isset($product) ? route('products.update', $product->id) : route('products.store') }}">
+        <form method="post" enctype="multipart/form-data" action="{{ isset($product) ? route('products.update', $product->id) : route('products.store') }}">
             @csrf
             @if(isset($product))
                 @method('put')
@@ -51,6 +51,20 @@
                             {{ $errors->first('parent_id') }}
                         @endif
                     </div>
+                    <div class="mb-3">
+                        <label for="parent_id" class="form-label">Tag</label>
+                        <select class="select2" id="tags" name="tags[]" multiple>
+
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="thumbnail" class="form-label">Thumbnail</label>
+                        <input class="form-control" type="file" name="thumbnail" id="thumbnail">
+                    </div>
+                    <div class="mb-3">
+                        <label for="catalog" class="form-label">Catalog</label>
+                        <input class="form-control" name="catalog[]" type="file" id="catalog" multiple>
+                    </div>
                     <div class="form-check form-switch">
                         <input class="form-check-input" name="is_active" type="checkbox" role="switch" id="is_active" {{ !isset($product) || $product->is_active ? 'checked' : ''}}>
                         <label class="form-check-label" for="is_active">Status</label>
@@ -89,6 +103,33 @@
                     processResults: function (data, params) {
                         return {
                             results: data,
+                        }
+                    }
+                },
+            })
+            $('#tags').select2({
+                theme: 'bootstrap-5',
+                tags: true,
+                ajax: {
+                    url: '{{ route('tags.index') }}',
+                    data: function (params) {
+                        var query = {
+                            q: params.term,
+                            page: params.page || 1 ,
+                            _token: '{{ csrf_token() }}'
+                        }
+
+                        // Query parameters will be ?search=[term]&type=public
+                        return query;
+                    },
+                    dataType: 'json',
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.data,
+                            pagination: {
+                                more: params.page < data.lastPage,
+                            }
                         }
                     }
                 },

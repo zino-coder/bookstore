@@ -24,6 +24,11 @@ class Product extends Model
         'is_feature',
     ];
 
+    public function thumbnail() : MorphMany
+    {
+        return $this->morphMany(Media::class, 'mediable')->where('type', 'thumbnail');
+    }
+
     public function media() : MorphMany
     {
         return $this->morphMany(Media::class, 'mediable');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Services\CategoryService;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
@@ -43,7 +44,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
+        $this->productService->store($request);
+
+        return redirect()->route('products.index')->with('success', 'Create successfully!');
     }
 
     /**
@@ -51,7 +55,15 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $name = 'catalog';
+        $product = Product::with([
+            'media' => function ($sql) use ($name) {
+                return $sql->where('type', $name);
+            }
+        ])
+            ->get();
+        dd($product);
+        return view('admin.product.show');
     }
 
     /**
