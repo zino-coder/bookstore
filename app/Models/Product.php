@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Product extends Model
 {
@@ -24,9 +25,9 @@ class Product extends Model
         'is_feature',
     ];
 
-    public function thumbnail() : MorphMany
+    public function thumbnail() : MorphOne
     {
-        return $this->morphMany(Media::class, 'mediable')->where('type', 'thumbnail');
+        return $this->morphOne(Media::class, 'mediable')->where('type', 'thumbnail');
     }
 
     public function media() : MorphMany

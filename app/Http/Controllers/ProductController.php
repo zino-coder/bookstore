@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Services\CategoryService;
 use App\Services\ProductService;
@@ -22,11 +23,12 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = $this->productService->getAllProduct();
+        $categories = Category::where('parent_id', 0)->with(['children'])->get();
+        $products = $this->productService->getAllProduct($request);
 
-        return view('admin.product.index',  compact('products'));
+        return view('admin.product.index',  compact(['products', 'categories']));
     }
 
     /**

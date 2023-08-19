@@ -22,9 +22,9 @@ class ProductService
         $this->productRepository = $productRepository;
     }
 
-    public function getAllProduct()
+    public function getAllProduct($request)
     {
-        return $this->productRepository->getProducts();
+        return $this->productRepository->getProducts($request);
     }
 
     /**
@@ -83,5 +83,15 @@ class ProductService
     public function getProductById($id)
     {
         return $this->productRepository->getById($id);
+    }
+
+    public function getHotPoructForHome()
+    {
+        return $this->productRepository->getProductByAttribute(10, 'is_hot', 1);
+    }
+
+    public function getFeaturedProduct()
+    {
+        return $this->productRepository->getProductByAttribute(10, 'is_feature', 1);
     }
 }

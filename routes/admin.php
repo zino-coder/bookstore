@@ -42,3 +42,4 @@ Route::group(['prefix' => 'tags', 'as' => 'tags.'], function () {
     Route::post('/', [TagController::class, 'store'])->name('store');
     Route::put('/{id}', [TagController::class, 'update'])->name('update');
 });
+Route::get('logout', [\App\Http\Controllers\AdminAuthController::class, 'logout'])->name('admin.logout');

@@ -1,15 +1,48 @@
 @extends('admin.layout.layout')
 
 @section('content')
+    {{ request()->fullUrl() }}
     <div class="col-md-12">
         @if(session()->has('success'))
             <p class="alert alert-success">{{ session()->get('success') }}</p>
         @endif
+            <form method="get" action="{{ route('products.index') }}">
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Categories</h4>
             </div>
             <div class="card-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <input class="form-control" type="text" name="s">
+                        </div>
+                        <div class="col-3">
+                            <select class="form-select" name="category_id">
+                                <option value="">Choose Category</option>
+                                @foreach($categories as $category)
+                                    <optgroup label="{{$category->name}}">
+                                        @foreach($category->children as $child)
+                                            <option value="{{ $child->id }}">{{ $child->name }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-select" name="status">
+                                <option value="is_hot">Hot</option>
+                                <option value="is_feature">Feature</option>
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <select class="form-select" name="sort">
+                                <option value="name_asc">a->z</option>
+                                <option value="mame_desc">z->a</option>
+                                <option value="price_asc">lowest price</option>
+                                <option value="price_desc">hightest price</option>
+                            </select>
+                        </div>
+                    </div>
                 <table class="table">
                     <thead>
                     <tr>
@@ -53,10 +86,26 @@
                     </tbody>
                 </table>
             </div>
+            @if($products->lastPage() > 1 )
             <div class="card-footer">
-                {{ $products->links() }}
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                            <a class="page-link">Previous</a>
+                        </li>
+                        @for($i = 1; $i <= $products->lastPage(); $i++)
+                        <li class="page-item"><a class="page-link" href="{{ request()->fullUrl() . '&page=' . $i }}">{{ $i }}</a></li>
+                        @endfor
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+
             </div>
         </div>
+                @endif
+            </form>
     </div>
 @endsection
 
