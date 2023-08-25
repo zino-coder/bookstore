@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Services\CategoryService;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -90,5 +91,13 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function uploadImage(Request $request)
+    {
+        if ($request->hasFile('file')) {
+            $imagePath = $request->file('file')->store('images', 'public');
+            return response()->json(['location' => asset('storage/' . $imagePath)]);
+        }
+        return response()->json(['error' => 'Image upload failed'], 400);
     }
 }

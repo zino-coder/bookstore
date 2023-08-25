@@ -39,4 +39,13 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+
+    public function getCartPriceAttribute()
+    {
+        if ($this->sale_price) {
+            return $this->sale_price;
+        }
+
+        return $this->price;
+    }
 }

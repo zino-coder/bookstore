@@ -108,6 +108,7 @@
 <script src="{{ asset('velzon/assets/js/plugins.js') }}"></script>
 <script src="{{ asset('js/jquery-3.7.0.min.js') }}"></script>
 <script src="{{ asset('libs/select2/js/select2.min.js') }}"></script>
+<script src="{{ asset('tinymce/tinymce.min.js') }}"></script>
 
 <!-- App js -->
 {{--<script src="{{ asset('velzon/assets/js/app.js') }}"></script>--}}

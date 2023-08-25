@@ -213,6 +213,7 @@
                                 </div>
                                 <a href="product.html" class="rating-reviews">( 12 reviews )</a>
                             </div>
+                            <div><a class="btn btn-primary" href="{{ route('addtocart', $product->id) }}">Add to Cart</a> </div>
                         </div>
                     </div>
                 @endforeach

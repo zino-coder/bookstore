@@ -45,6 +45,7 @@
 
     <!-- Main CSS File -->
     <link rel="stylesheet" type="text/css" href="{{ asset('riode/css/demo1.min.css') }}">
+    @stack('custom-css')
 </head>
 
 <body class="home">
